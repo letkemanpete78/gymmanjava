@@ -1,13 +1,20 @@
 package ca.letkeman.gymmanjava.models;
 
 import java.time.LocalDateTime;
+import javax.persistence.Column;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import org.springframework.data.annotation.Id;
 
 public class ResourceFile {
 
-  private int fileId;
+  @Id
+  @GeneratedValue(strategy= GenerationType.AUTO)
+  @Column(unique =  true, nullable = false)
+  private Integer fileId;
   private String fileName;
   private LocalDateTime dateTime;
   private int fileSize;
@@ -25,11 +32,11 @@ public class ResourceFile {
     this.description = description;
   }
 
-  public int getFileId() {
+  public Integer getFileId() {
     return fileId;
   }
 
-  public void setFileId(int fileId) {
+  public void setFileId(Integer fileId) {
     this.fileId = fileId;
   }
 

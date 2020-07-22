@@ -1,10 +1,18 @@
 package ca.letkeman.gymmanjava.models;
 
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+
 public class Activity {
 
+  @Id
+  @Column(unique = true, nullable = false)
   private String uuid;
   private String name;
   private String description;
+  @OneToOne
   private ResourceFile resourceFile;
 
   public Activity() {
