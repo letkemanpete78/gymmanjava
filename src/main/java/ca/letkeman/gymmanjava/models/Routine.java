@@ -1,21 +1,33 @@
 package ca.letkeman.gymmanjava.models;
 
 import java.util.List;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+@Entity
 public class Routine {
+
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  @Column(unique = true, nullable = false)
   private Integer id;
   private String name;
   private String description;
+  @OneToMany
   private List<Exercise> exercises;
 
   public Routine() {
   }
 
-  public Routine(Integer id, String name, String description,
-      List<Exercise> exercises) {
+  public Routine(Integer id, String name, String description ,
+      List<Exercise> exercises ) {
     this.id = id;
     this.name = name;
     this.description = description;
