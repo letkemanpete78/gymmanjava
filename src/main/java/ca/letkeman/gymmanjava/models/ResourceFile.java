@@ -17,7 +17,7 @@ public class ResourceFile {
   private Integer fileId;
   private String fileName;
   private LocalDateTime dateTime;
-  private int fileSize;
+  private long fileSize;
   private String description;
 
   public ResourceFile() {
@@ -56,11 +56,11 @@ public class ResourceFile {
     this.dateTime = dateTime;
   }
 
-  public int getFileSize() {
+  public long getFileSize() {
     return fileSize;
   }
 
-  public void setFileSize(int fileSize) {
+  public void setFileSize(long fileSize) {
     this.fileSize = fileSize;
   }
 

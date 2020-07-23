@@ -1,10 +1,13 @@
 package ca.letkeman.gymmanjava.service;
 
-import java.nio.file.Path;
-import java.util.stream.Stream;
+
 import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;
-public interface  Storage {
+
+import java.nio.file.Path;
+import java.util.stream.Stream;
+
+public interface StorageService {
 
   void init();
 
@@ -17,4 +20,7 @@ public interface  Storage {
   Resource loadAsResource(String filename);
 
   void deleteAll();
+
+  void delete(String fileName);
+
 }
