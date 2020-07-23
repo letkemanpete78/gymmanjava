@@ -1,4 +1,4 @@
-package ca.letkeman.gymmanjava;
+package ca.letkeman.gymmanjava.controller;
 
 import ca.letkeman.gymmanjava.dao.ActivityRepository;
 import ca.letkeman.gymmanjava.dao.ResourceFileRepository;
@@ -37,12 +37,12 @@ public class ActivityController {
   }
 
   @DeleteMapping
-  public boolean deleteActivity(@RequestBody String payload){
+  public boolean delete(@RequestBody String payload){
     return true;
   }
 
   @PutMapping
-  public Activity updateActivity(@RequestParam("file") MultipartFile file,
+  public Activity update(@RequestParam("file") MultipartFile file,
       RedirectAttributes redirectAttributes) {
 
     storage.store(file);
@@ -51,7 +51,7 @@ public class ActivityController {
   }
 
   @PostMapping
-  public Activity createActivity(@RequestParam("file") MultipartFile file,
+  public Activity create(@RequestParam("file") MultipartFile file,
       RedirectAttributes redirectAttributes) {
 
     storage.store(file);
@@ -60,7 +60,7 @@ public class ActivityController {
   }
 
   @GetMapping("/{id}")
-  public Activity getActivety(@PathVariable String id){
+  public Activity get(@PathVariable String id){
     return new Activity();
   }
 

@@ -1,4 +1,4 @@
-package ca.letkeman.gymman;
+package ca.letkeman.gymmanjava;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class GymmanJavaApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ca.letkeman.gymman.GymmanJavaApplication.class, args);
+		SpringApplication.run(GymmanJavaApplication.class, args);
 	}
 
 }

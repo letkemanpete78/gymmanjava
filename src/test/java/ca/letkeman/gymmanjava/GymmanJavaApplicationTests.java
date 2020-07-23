@@ -1,4 +1,4 @@
-package ca.letkeman.gymman;
+package ca.letkeman.gymmanjava;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

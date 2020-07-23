@@ -1,7 +1,6 @@
 package ca.letkeman.gymmanjava.models;
 
 import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
@@ -71,7 +70,6 @@ public class Activity {
     Activity activity = (Activity) o;
 
     return new org.apache.commons.lang3.builder.EqualsBuilder()
-        .append(uuid, activity.uuid)
         .append(name, activity.name)
         .append(description, activity.description)
         .append(resourceFile, activity.resourceFile)
@@ -81,7 +79,6 @@ public class Activity {
   @Override
   public int hashCode() {
     return new org.apache.commons.lang3.builder.HashCodeBuilder(17, 37)
-        .append(uuid)
         .append(name)
         .append(description)
         .append(resourceFile)

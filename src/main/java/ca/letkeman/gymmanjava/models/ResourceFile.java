@@ -2,11 +2,11 @@ package ca.letkeman.gymmanjava.models;
 
 import java.time.LocalDateTime;
 import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import org.springframework.data.annotation.Id;
 
 public class ResourceFile {
