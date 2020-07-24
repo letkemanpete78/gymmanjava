@@ -21,11 +21,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/routine")
 public class RoutineController {
 
-  private final RountineRepository routineRepository;
-
 
   public RoutineController(RountineRepository routineRepository) {
-    this.routineRepository = routineRepository;
   }
 
   @DeleteMapping

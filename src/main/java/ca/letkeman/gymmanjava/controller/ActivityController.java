@@ -118,7 +118,7 @@ public class ActivityController {
 
   private boolean deleteActivites(String payload) {
     if (!payload.isEmpty()) {
-      List<Activity> activities = null;
+      List<Activity> activities;
       try {
         List<String> list = Arrays.asList(payload.replace("\"","").split(","));
         activities = activityRepository.findAllByuuidIn(list);
@@ -126,14 +126,14 @@ public class ActivityController {
           return false;
         }
         activityRepository.deleteAll(activities);
-        activities.stream().forEach(x -> {
+        activities.forEach(x -> {
           if ((x.getResourceFile() != null) && (x.getResourceFile().getFileName() != null)) {
             storage.delete(x.getResourceFile().getFileName());
          }
         });
 
         resourceFileRepository.deleteAll(
-            activities.stream().map(x -> x.getResourceFile()).collect(Collectors.toList()));
+            activities.stream().map(Activity::getResourceFile).collect(Collectors.toList()));
         if (activityRepository.findAllByuuidIn(Collections.singletonList(list.toString()))
             .isEmpty()) {
           return true;

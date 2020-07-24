@@ -21,11 +21,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/exercise")
 public class ExerciseController {
 
-  private final ExerciseRepository exerciseRepository;
-
 
   public ExerciseController(ExerciseRepository exerciseRepository) {
-    this.exerciseRepository = exerciseRepository;
   }
 
   @DeleteMapping
