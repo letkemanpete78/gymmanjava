@@ -2,15 +2,19 @@ package ca.letkeman.gymmanjava.controller;
 
 import ca.letkeman.gymmanjava.dao.ActivityRepository;
 //import ca.letkeman.gymmanjava.dao.ResourceFileRepository;
+import ca.letkeman.gymmanjava.dao.ResourceFileRepository;
 import ca.letkeman.gymmanjava.models.Activity;
 //import ca.letkeman.gymmanjava.models.ResourceFile;
 //import ca.letkeman.gymmanjava.service.StorageService;
+import ca.letkeman.gymmanjava.models.ResourceFile;
+import ca.letkeman.gymmanjava.service.StorageService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
+import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,6 +24,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -31,14 +36,14 @@ import org.springframework.web.multipart.MultipartFile;
 public class ActivityController {
 
   private final ActivityRepository activityRepository;
-//  private final ResourceFileRepository resourceFileRepository;
-//  private final StorageService storage;
+  private final ResourceFileRepository resourceFileRepository;
+  private final StorageService storage;
 
-  public ActivityController(ActivityRepository activityRepository/*,
-       ResourceFileRepository resourceFileRepository,StorageService storage*/) {
+  public ActivityController(ActivityRepository activityRepository,
+       ResourceFileRepository resourceFileRepository, StorageService storage) {
     this.activityRepository = activityRepository;
-//    this.resourceFileRepository = resourceFileRepository;
-//    this.storage = storage;
+    this.resourceFileRepository = resourceFileRepository;
+    this.storage = storage;
   }
 
   @DeleteMapping
@@ -51,17 +56,22 @@ public class ActivityController {
     return getActivity(file, payload);
   }
 
-  @PostMapping
-  public Activity create(@RequestParam("file") MultipartFile file, @RequestBody String payload) {
+  @PostMapping("/")
+  public Activity create(@RequestParam("file") MultipartFile file, @RequestParam("payload") String payload) {
     return getActivity(file, payload);
   }
 
-  @GetMapping("/{id}")
+  @RequestMapping(value = "/{id}",
+      method = RequestMethod.GET,
+      produces = {MediaType.APPLICATION_JSON_VALUE},
+      consumes = MediaType.ALL_VALUE)
   public Activity get(@PathVariable String id) {
     return activityRepository.findByuuid(id);
   }
 
-  @GetMapping("/list")
+  @RequestMapping(value = "/",
+      method = RequestMethod.GET,produces = {MediaType.APPLICATION_JSON_VALUE},
+      consumes = MediaType.ALL_VALUE)
   public List<Activity> list() {
     return (List<Activity>) activityRepository.findAll();
   }
@@ -72,23 +82,22 @@ public class ActivityController {
     Activity activity = new Activity();
     try {
       activity = new ObjectMapper().readValue(payload, new TypeReference<Activity>() {});
-
-//      if (activity != null) {
-//        String deleteFile = activityRepository.findByuuid(activity.getUuid()).getResourceFile()
-//            .getFileName();
-//        if (deleteFile != null) {
-//          storage.delete(deleteFile);
-//        }
-//        ResourceFile resourceFile = new ResourceFile();
-//        if (file != null) {
-//          storage.store(file);
-//          resourceFile.setFileName(file.getName());
-//          resourceFile.setFileSize(file.getSize());
-//          resourceFile.setDescription("someting");
-//          resourceFile.setDateTime(LocalDateTime.now());
-//        }
-//        activity.setResourceFile(resourceFile);
-//      }
+      if (activity != null) {
+        Activity deleteFile = activityRepository.findByuuid(activity.getUuid());
+        if ((deleteFile != null) && (deleteFile.getResourceFile() != null) && (deleteFile.getResourceFile().getFileName() != null)) {
+          storage.delete(deleteFile.getResourceFile().getFileName());
+        }
+        ResourceFile resourceFile = new ResourceFile();
+        if (file != null) {
+          storage.store(file);
+          resourceFile.setFileName(file.getOriginalFilename());
+          resourceFile.setFileSize((int) file.getSize());
+          resourceFile.setDescription("something");
+          resourceFile.setDateTime(LocalDateTime.now());
+          resourceFile = resourceFileRepository.save(resourceFile);
+        }
+        activity.setResourceFile(resourceFile);
+      }
       activity = activityRepository.save(activity);
     } catch (JsonProcessingException e) {
       e.printStackTrace();

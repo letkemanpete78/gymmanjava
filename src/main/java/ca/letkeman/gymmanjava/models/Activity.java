@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Activity {
@@ -24,19 +25,19 @@ public class Activity {
   private String uuid;
   private String name;
   private String description;
-//  @OneToOne
-//  private ResourceFile resourceFile;
+  @OneToOne
+  private ResourceFile resourceFile;
 
   public Activity() {
   }
 
-  public Activity(long id, String uuid, String name, String description/*/,
-      ResourceFile resourceFile*/) {
+  public Activity(long id, String uuid, String name, String description,
+      ResourceFile resourceFile) {
     this.id = id;
     this.uuid = uuid;
     this.name = name;
     this.description = description;
-//    this.resourceFile = resourceFile;
+    this.resourceFile = resourceFile;
   }
 
   public String getUuid() {
@@ -63,13 +64,13 @@ public class Activity {
     this.description = description;
   }
 
-//  public ResourceFile getResourceFile() {
-//    return resourceFile;
-//  }
+  public ResourceFile getResourceFile() {
+    return resourceFile;
+  }
 
-//  public void setResourceFile(ResourceFile resourceFile) {
-//    this.resourceFile = resourceFile;
-//  }
+  public void setResourceFile(ResourceFile resourceFile) {
+    this.resourceFile = resourceFile;
+  }
 
   @Override
   public boolean equals(Object o) {
@@ -86,7 +87,7 @@ public class Activity {
     return new org.apache.commons.lang3.builder.EqualsBuilder()
         .append(name, activity.name)
         .append(description, activity.description)
-//        .append(resourceFile, activity.resourceFile)
+        .append(resourceFile, activity.resourceFile)
         .isEquals();
   }
 
@@ -95,7 +96,7 @@ public class Activity {
     return new org.apache.commons.lang3.builder.HashCodeBuilder(17, 37)
         .append(name)
         .append(description)
-//        .append(resourceFile)
+        .append(resourceFile)
         .toHashCode();
   }
 
@@ -105,7 +106,7 @@ public class Activity {
         .append("uuid", uuid)
         .append("name", name)
         .append("description", description)
-//        .append("resourseFile", resourceFile)
+        .append("resourseFile", resourceFile)
         .toString();
   }
 }
