@@ -1,24 +1,22 @@
 package ca.letkeman.gymmanjava.controller;
 
 import ca.letkeman.gymmanjava.dao.ActivityRepository;
-//import ca.letkeman.gymmanjava.dao.ResourceFileRepository;
 import ca.letkeman.gymmanjava.dao.ResourceFileRepository;
 import ca.letkeman.gymmanjava.models.Activity;
-//import ca.letkeman.gymmanjava.models.ResourceFile;
-//import ca.letkeman.gymmanjava.service.StorageService;
 import ca.letkeman.gymmanjava.models.ResourceFile;
 import ca.letkeman.gymmanjava.service.StorageService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -40,7 +38,7 @@ public class ActivityController {
   private final StorageService storage;
 
   public ActivityController(ActivityRepository activityRepository,
-       ResourceFileRepository resourceFileRepository, StorageService storage) {
+      ResourceFileRepository resourceFileRepository, StorageService storage) {
     this.activityRepository = activityRepository;
     this.resourceFileRepository = resourceFileRepository;
     this.storage = storage;
@@ -52,12 +50,14 @@ public class ActivityController {
   }
 
   @PutMapping
-  public Activity update(@RequestParam("file") MultipartFile file, @RequestBody String payload) {
+  public Activity update(@RequestParam("file") MultipartFile file,
+      @RequestParam("payload") String payload) {
     return getActivity(file, payload);
   }
 
   @PostMapping("/")
-  public Activity create(@RequestParam("file") MultipartFile file, @RequestParam("payload") String payload) {
+  public Activity create(@RequestParam("file") MultipartFile file,
+      @RequestParam("payload") String payload) {
     return getActivity(file, payload);
   }
 
@@ -70,7 +70,7 @@ public class ActivityController {
   }
 
   @RequestMapping(value = "/",
-      method = RequestMethod.GET,produces = {MediaType.APPLICATION_JSON_VALUE},
+      method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE},
       consumes = MediaType.ALL_VALUE)
   public List<Activity> list() {
     return (List<Activity>) activityRepository.findAll();
@@ -81,24 +81,35 @@ public class ActivityController {
       String payload) {
     Activity activity = new Activity();
     try {
-      activity = new ObjectMapper().readValue(payload, new TypeReference<Activity>() {});
-      if (activity != null) {
+      activity = new ObjectMapper().readValue(payload, new TypeReference<Activity>() {
+      });
+      String fileDescription = null;
+      if ((activity != null) && (activity.getUuid() != null)) {
         Activity deleteFile = activityRepository.findByuuid(activity.getUuid());
-        if ((deleteFile != null) && (deleteFile.getResourceFile() != null) && (deleteFile.getResourceFile().getFileName() != null)) {
+        if ((deleteFile != null) && (deleteFile.getResourceFile() != null) && (
+            deleteFile.getResourceFile().getFileName() != null)) {
           storage.delete(deleteFile.getResourceFile().getFileName());
+          activity.setId(deleteFile.getId());
+          if (deleteFile.getResourceFile().getDescription() != null) {
+            fileDescription = deleteFile.getResourceFile().getDescription();
+          }
         }
         ResourceFile resourceFile = new ResourceFile();
         if (file != null) {
           storage.store(file);
+          if ((activity.getResourceFile() != null) && (activity.getResourceFile().getDescription()
+              != null)) {
+            fileDescription = activity.getResourceFile().getDescription();
+          }
           resourceFile.setFileName(file.getOriginalFilename());
           resourceFile.setFileSize((int) file.getSize());
-          resourceFile.setDescription("something");
+          resourceFile.setDescription(fileDescription);
           resourceFile.setDateTime(LocalDateTime.now());
           resourceFile = resourceFileRepository.save(resourceFile);
         }
         activity.setResourceFile(resourceFile);
+        activity = activityRepository.save(activity);
       }
-      activity = activityRepository.save(activity);
     } catch (JsonProcessingException e) {
       e.printStackTrace();
     }
@@ -109,18 +120,25 @@ public class ActivityController {
     if (!payload.isEmpty()) {
       List<Activity> activities = null;
       try {
-        Iterable<String> list = new ObjectMapper().readValue(payload, List.class);
-        activities = activityRepository.findAllByuuidIn(Collections.singletonList(list.toString()));
+        List<String> list = Arrays.asList(payload.replace("\"","").split(","));
+        activities = activityRepository.findAllByuuidIn(list);
         if (activities.isEmpty()) {
           return false;
         }
         activityRepository.deleteAll(activities);
+        activities.stream().forEach(x -> {
+          if ((x.getResourceFile() != null) && (x.getResourceFile().getFileName() != null)) {
+            storage.delete(x.getResourceFile().getFileName());
+         }
+        });
+
+        resourceFileRepository.deleteAll(
+            activities.stream().map(x -> x.getResourceFile()).collect(Collectors.toList()));
         if (activityRepository.findAllByuuidIn(Collections.singletonList(list.toString()))
             .isEmpty()) {
-//          activities.stream().forEach(x -> storage.delete(x.getResourceFile().getFileName()));
           return true;
         }
-      } catch (JsonProcessingException e) {
+      } catch (Exception e) {
         e.printStackTrace();
         return false;
       }
