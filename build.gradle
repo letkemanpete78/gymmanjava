@@ -21,6 +21,11 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
+	// https://mvnrepository.com/artifact/org.mockito/mockito-junit-jupiter
+	testCompile group: 'org.mockito', name: 'mockito-junit-jupiter', version: '3.3.3'
+
+	runtime('com.h2database:h2')
+
 	runtimeOnly 'mysql:mysql-connector-java'
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'

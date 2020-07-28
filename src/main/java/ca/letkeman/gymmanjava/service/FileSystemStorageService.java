@@ -8,8 +8,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.Objects;
-import java.util.stream.Stream;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -21,11 +19,19 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 public class FileSystemStorageService implements StorageService {
 
-  private final Path rootLocation;
+  private Path rootLocation;
+  private static String configPathalue = "";
 
   @Autowired
-  public FileSystemStorageService(StorageProperties properties) {
-    this.rootLocation = Paths.get(properties.getLocation());
+  public FileSystemStorageService(StorageProperties properties) throws Exception {
+    if ((properties == null)) {
+      throw new NullPointerException("cannot have null location value");
+    }
+    if (properties.getLocation() != null) {
+      configPathalue = properties.getLocation();
+    }
+    this.rootLocation = Paths.get(configPathalue);
+    init();
   }
 
   @Override
@@ -48,18 +54,6 @@ public class FileSystemStorageService implements StorageService {
     } catch (IOException e) {
       throw new StorageException("Failed to store file " + filename, e);
     }
-  }
-
-  @Override
-  public Stream<Path> loadAll() {
-    try {
-      return Files.walk(this.rootLocation, 1)
-          .filter(path -> !path.equals(this.rootLocation))
-          .map(this.rootLocation::relativize);
-    } catch (IOException e) {
-      throw new StorageException("Failed to read stored files", e);
-    }
-
   }
 
   @Override
@@ -98,7 +92,9 @@ public class FileSystemStorageService implements StorageService {
   @Override
   public void init() {
     try {
-      Files.createDirectories(rootLocation);
+      if (!Files.exists(rootLocation)) {
+        Files.createDirectories(rootLocation);
+      }
     } catch (IOException e) {
       throw new StorageException("Could not initialize storage", e);
     }
