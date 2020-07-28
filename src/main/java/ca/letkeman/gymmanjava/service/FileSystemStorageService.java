@@ -24,9 +24,6 @@ public class FileSystemStorageService implements StorageService {
 
   @Autowired
   public FileSystemStorageService(StorageProperties properties) throws Exception {
-    if ((properties == null)) {
-      throw new NullPointerException("cannot have null location value");
-    }
     if (properties.getLocation() != null) {
       configPathalue = properties.getLocation();
     }

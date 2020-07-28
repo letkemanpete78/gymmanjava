@@ -30,7 +30,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Transactional
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/activity")
+@RequestMapping("/activity/v1")
 public class ActivityController {
 
   private final ActivityRepository activityRepository;
