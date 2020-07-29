@@ -1,15 +1,19 @@
 package ca.letkeman.gymmanjava.service;
 
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -51,7 +55,19 @@ class FileSystemStorageServiceTest {
       MockMultipartFile mockMultipartFile = new MockMultipartFile("test.txt", (byte[]) null);
       fileSystemStorageService.store(mockMultipartFile);
     });
+    Assertions.assertThrows(StorageException.class, () -> {
+      MultipartFile multipartFile = Mockito.mock((MultipartFile.class));
+      multipartFile = new MockMultipartFile("test.txt", "abc".getBytes());
+      fileSystemStorageService.store(multipartFile);
+    });
   }
+
+  /*
+     try (InputStream inputStream = file.getInputStream()) {
+        Files.copy(inputStream, this.rootLocation.resolve(filename),
+            StandardCopyOption.REPLACE_EXISTING);
+      }
+   */
 
   @Test
   void shouldLoadFile() throws IOException {
