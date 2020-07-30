@@ -1,4 +1,4 @@
-package ca.letkeman.gymmanjava.service;
+package ca.letkeman.gymmanjava.service.interfaces;
 
 
 import java.nio.file.Path;

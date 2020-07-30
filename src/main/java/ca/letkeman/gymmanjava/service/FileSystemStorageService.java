@@ -1,5 +1,6 @@
 package ca.letkeman.gymmanjava.service;
 
+import ca.letkeman.gymmanjava.service.interfaces.StorageService;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;

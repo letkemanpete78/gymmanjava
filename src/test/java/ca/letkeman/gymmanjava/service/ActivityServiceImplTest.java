@@ -8,6 +8,7 @@ import ca.letkeman.gymmanjava.dao.ActivityRepository;
 import ca.letkeman.gymmanjava.dao.ResourceFileRepository;
 import ca.letkeman.gymmanjava.models.Activity;
 import ca.letkeman.gymmanjava.models.ResourceFile;
+import ca.letkeman.gymmanjava.service.interfaces.StorageService;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import java.time.LocalDateTime;

@@ -4,9 +4,9 @@
 //import ca.letkeman.gymmanjava.dao.ResourceFileRepository;
 //import ca.letkeman.gymmanjava.models.Activity;
 //import ca.letkeman.gymmanjava.models.ResourceFile;
-//import ca.letkeman.gymmanjava.service.ActivityService;
+//import ca.letkeman.gymmanjava.service.interfaces.ActivityService;
 //import ca.letkeman.gymmanjava.service.ActivityServiceImpl;
-//import ca.letkeman.gymmanjava.service.StorageService;
+//import ca.letkeman.gymmanjava.service.interfaces.StorageService;
 //import java.time.LocalDateTime;
 //import java.util.ArrayList;
 //import org.junit.jupiter.api.BeforeEach;

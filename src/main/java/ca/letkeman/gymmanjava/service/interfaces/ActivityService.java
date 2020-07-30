@@ -1,4 +1,4 @@
-package ca.letkeman.gymmanjava.service;
+package ca.letkeman.gymmanjava.service.interfaces;
 
 import ca.letkeman.gymmanjava.models.Activity;
 import com.fasterxml.jackson.core.JsonProcessingException;

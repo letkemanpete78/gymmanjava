@@ -1,9 +1,9 @@
 package ca.letkeman.gymmanjava.controller;
 
-import ca.letkeman.gymmanjava.dao.ExerciseRepository;
 import ca.letkeman.gymmanjava.models.Exercise;
-import java.util.ArrayList;
+import ca.letkeman.gymmanjava.service.interfaces.ExerciseService;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,35 +18,38 @@ import org.springframework.web.bind.annotation.RestController;
 @Transactional
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/exercise")
-public class ExerciseController {
+@RequestMapping("/exercise/v1")
+public class ExerciseController implements ExerciseService {
 
+  @Autowired
+  ExerciseService exerciseService;
 
-  public ExerciseController(ExerciseRepository exerciseRepository) {
-  }
-
+  @Override
   @DeleteMapping
   public  boolean delete(@RequestBody String payload){
-    return true;
+    return exerciseService.delete(payload);
   }
 
+  @Override
   @PutMapping
   public Exercise update(@RequestBody String payload){
-    return new Exercise();
+    return exerciseService.update(payload);
   }
 
+  @Override
   @PostMapping
   public Exercise create(@RequestBody String payload){
-    return new Exercise();
-  }
+    return exerciseService.create(payload);  }
 
+  @Override
   @GetMapping("/{id}")
   public Exercise get(@PathVariable String id){
-    return new Exercise();
+    return exerciseService.get(id);
   }
 
+  @Override
   @GetMapping("/list")
-  public List<Exercise> list (){
-    return new ArrayList<>();
+  public List<Exercise> list(){
+    return exerciseService.list();
   }
 }
