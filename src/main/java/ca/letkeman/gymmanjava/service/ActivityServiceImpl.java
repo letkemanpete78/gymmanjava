@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
-public class ActivityServiceImpl implements ActivityService{
+public class ActivityServiceImpl implements ActivityService {
 
   private final ActivityRepository activityRepository;
   private final ResourceFileRepository resourceFileRepository;
@@ -32,24 +32,33 @@ public class ActivityServiceImpl implements ActivityService{
   }
 
   @Override
-  public boolean delete( String payload) {
+  public boolean delete(String payload) {
     return deleteActivites(payload);
   }
 
   @Override
-  public Activity update( MultipartFile file,
-       String payload) {
-    return getActivity(file, payload);
+  public Activity update(MultipartFile file,
+      String payload) {
+    try {
+      return getActivity(file, payload);
+    } catch (JsonProcessingException e) {
+      e.printStackTrace();
+      return null;
+    }
   }
 
   @Override
-  public Activity create( MultipartFile file,
-       String payload) {
-    return getActivity(file, payload);
+  public Activity create(MultipartFile file,
+      String payload) throws JsonProcessingException {
+    try {
+      return getActivity(file, payload);
+    } catch (JsonProcessingException e) {
+      throw e;
+    }
   }
 
   @Override
-  public Activity get( String id) {
+  public Activity get(String id) {
     return activityRepository.findByuuid(id);
   }
 
@@ -58,44 +67,49 @@ public class ActivityServiceImpl implements ActivityService{
     return (List<Activity>) activityRepository.findAll();
   }
 
-  private Activity getActivity(
-      MultipartFile file,
-      String payload) {
-    Activity activity = new Activity();
-    try {
-      activity = new ObjectMapper().readValue(payload, new TypeReference<Activity>() {
-      });
-      String fileDescription = null;
-      if ((activity != null) && (activity.getUuid() != null)) {
-        Activity deleteFile = activityRepository.findByuuid(activity.getUuid());
-        if ((deleteFile != null) && (deleteFile.getResourceFile() != null) && (
-            deleteFile.getResourceFile().getFileName() != null)) {
-          storage.delete(deleteFile.getResourceFile().getFileName());
-          activity.setId(deleteFile.getId());
-          if (deleteFile.getResourceFile().getDescription() != null) {
-            fileDescription = deleteFile.getResourceFile().getDescription();
-          }
+  private Activity getActivity(MultipartFile file, String payload) throws JsonProcessingException {
+
+    Activity activity = new ObjectMapper().readValue(payload, new TypeReference<Activity>() {
+    });
+    String fileDescription = null;
+
+    if ((activity != null) && (activity.getUuid() != null)) {
+
+      Activity deleteFile = activityRepository.findByuuid(activity.getUuid());
+      if ((deleteFile != null) && (deleteFile.getResourceFile() != null) && (
+          deleteFile.getResourceFile().getFileName() != null)) {
+
+        storage.delete(deleteFile.getResourceFile().getFileName());
+        activity.setId(deleteFile.getId());
+
+        if (deleteFile.getResourceFile().getDescription() != null) {
+          fileDescription = deleteFile.getResourceFile().getDescription();
         }
-        ResourceFile resourceFile = new ResourceFile();
-        if (file != null) {
-          storage.store(file);
-          if ((activity.getResourceFile() != null) && (activity.getResourceFile().getDescription()
-              != null)) {
-            fileDescription = activity.getResourceFile().getDescription();
-          }
-          resourceFile.setFileName(file.getOriginalFilename());
-          resourceFile.setFileSize((int) file.getSize());
-          resourceFile.setDescription(fileDescription);
-          resourceFile.setDateTime(LocalDateTime.now());
-          resourceFile = resourceFileRepository.save(resourceFile);
-        }
-        activity.setResourceFile(resourceFile);
-        activity = activityRepository.save(activity);
       }
-    } catch (JsonProcessingException e) {
-      e.printStackTrace();
+      activity.setResourceFile(getResourceFile(file, activity.getResourceFile(), fileDescription));
+      activity = activityRepository.save(activity);
     }
     return activity;
+  }
+
+  private ResourceFile getResourceFile(MultipartFile file, ResourceFile resourceFile,
+      String fileDescription) {
+    if (file == null) {
+      return null;
+    }
+
+    ResourceFile returnedFile = new ResourceFile();
+    storage.store(file);
+    if ((resourceFile != null) && (resourceFile.getDescription() != null)) {
+      fileDescription = resourceFile.getDescription();
+    }
+
+    returnedFile.setFileName(file.getOriginalFilename());
+    returnedFile.setFileSize((int) file.getSize());
+    returnedFile.setDescription(fileDescription);
+    returnedFile.setDateTime(LocalDateTime.now());
+    returnedFile = resourceFileRepository.save(returnedFile);
+    return returnedFile;
   }
 
   private boolean deleteActivites(String payload) {

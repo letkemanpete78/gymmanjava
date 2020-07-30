@@ -2,6 +2,7 @@ package ca.letkeman.gymmanjava.controller;
 
 import ca.letkeman.gymmanjava.models.Activity;
 import ca.letkeman.gymmanjava.service.ActivityService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -40,7 +41,7 @@ public class ActivityController {
 
   @PostMapping("/")
   public Activity create(@RequestParam("file") MultipartFile file,
-      @RequestParam("payload") String payload) {
+      @RequestParam("payload") String payload) throws JsonProcessingException {
     return activityService.create(file, payload);
   }
 
