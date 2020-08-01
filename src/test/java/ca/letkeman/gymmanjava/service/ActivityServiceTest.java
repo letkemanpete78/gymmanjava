@@ -26,7 +26,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 @ActiveProfiles("test")
 @SpringBootTest
-class ActivityServiceImplTest {
+class ActivityServiceTest {
 
   @Mock
   private ActivityRepository activityRepository;
@@ -38,14 +38,7 @@ class ActivityServiceImplTest {
   private StorageService storage;
 
   @InjectMocks
-  private ActivityServiceImpl activityService;
-
-
-  @BeforeEach
-  void setUp() {
-//    activityService = new ActivityServiceImpl(activityRepository, resourceFileRepository, storage);
-
-  }
+  private ActivityService activityService;
 
   @Test
   void deleteShouldBeCalled() {

@@ -4,7 +4,7 @@ import ca.letkeman.gymmanjava.dao.ActivityRepository;
 import ca.letkeman.gymmanjava.dao.ResourceFileRepository;
 import ca.letkeman.gymmanjava.models.Activity;
 import ca.letkeman.gymmanjava.models.ResourceFile;
-import ca.letkeman.gymmanjava.service.interfaces.ActivityService;
+import ca.letkeman.gymmanjava.service.interfaces.CrudWithFileService;
 import ca.letkeman.gymmanjava.service.interfaces.StorageService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -18,14 +18,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
-public class ActivityServiceImpl implements ActivityService {
+public class ActivityService implements CrudWithFileService {
 
   private final ActivityRepository activityRepository;
   private final ResourceFileRepository resourceFileRepository;
   private final StorageService storage;
 
 
-  public ActivityServiceImpl(ActivityRepository activityRepository,
+  public ActivityService(ActivityRepository activityRepository,
       ResourceFileRepository resourceFileRepository,
       StorageService storage) {
     this.activityRepository = activityRepository;

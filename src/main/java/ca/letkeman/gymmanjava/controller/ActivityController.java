@@ -1,7 +1,7 @@
 package ca.letkeman.gymmanjava.controller;
 
 import ca.letkeman.gymmanjava.models.Activity;
-import ca.letkeman.gymmanjava.service.interfaces.ActivityService;
+import ca.letkeman.gymmanjava.service.interfaces.CrudWithFileService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,23 +26,23 @@ import org.springframework.web.multipart.MultipartFile;
 public class ActivityController {
 
   @Autowired
-  private ActivityService activityService;
+  private CrudWithFileService crudService;
 
   @DeleteMapping
   public boolean delete(@RequestBody String payload) {
-    return activityService.delete(payload);
+    return crudService.delete(payload);
   }
 
   @PutMapping
   public Activity update(@RequestParam("file") MultipartFile file,
       @RequestParam("payload") String payload) {
-    return activityService.update(file, payload);
+    return (Activity) crudService.update(file, payload);
   }
 
   @PostMapping("/")
   public Activity create(@RequestParam("file") MultipartFile file,
       @RequestParam("payload") String payload) throws JsonProcessingException {
-    return activityService.create(file, payload);
+    return (Activity) crudService.create(file, payload);
   }
 
   @RequestMapping(value = "/{id}",
@@ -50,13 +50,13 @@ public class ActivityController {
       produces = {MediaType.APPLICATION_JSON_VALUE},
       consumes = MediaType.ALL_VALUE)
   public Activity get(@PathVariable String id) {
-    return activityService.get(id);
+    return (Activity) crudService.get(id);
   }
 
   @RequestMapping(value = "/",
       method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE},
       consumes = MediaType.ALL_VALUE)
   public List<Activity> list() {
-    return activityService.list();
+    return crudService.list();
   }
 }

@@ -2,14 +2,17 @@ package ca.letkeman.gymmanjava.service;
 
 import ca.letkeman.gymmanjava.dao.ExerciseRepository;
 import ca.letkeman.gymmanjava.models.Exercise;
-import ca.letkeman.gymmanjava.service.interfaces.ExerciseService;
+import ca.letkeman.gymmanjava.service.interfaces.CrudService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import java.util.List;
+import org.springframework.stereotype.Service;
 
-public class ExerciseServiceImpl implements ExerciseService {
+@Service
+public class ExerciseService implements CrudService {
 
   private final ExerciseRepository exerciseRepository;
 
-  public ExerciseServiceImpl(ExerciseRepository exerciseRepository) {
+  public ExerciseService(ExerciseRepository exerciseRepository) {
     this.exerciseRepository = exerciseRepository;
   }
 
@@ -24,7 +27,7 @@ public class ExerciseServiceImpl implements ExerciseService {
   }
 
   @Override
-  public Exercise create(String payload) {
+  public Exercise create(String payload) throws JsonProcessingException {
     return null;
   }
 
