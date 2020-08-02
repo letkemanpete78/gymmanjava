@@ -20,8 +20,8 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 public class FileSystemStorageService implements StorageService {
 
-  private Path rootLocation;
   private static String configPathalue = "";
+  private final Path rootLocation;
 
   @Autowired
   public FileSystemStorageService(StorageProperties properties) throws Exception {

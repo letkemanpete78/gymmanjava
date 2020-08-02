@@ -1,6 +1,6 @@
 package ca.letkeman.gymmanjava.service;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -88,7 +87,7 @@ class ActivityServiceTest {
     when(activityRepository.findByuuid("1 test-uuid")).thenReturn(activity);
     activityRepository.save(activity);
     Activity activity1 = activityService.get("1 test-uuid");
-    assertTrue(activity.getUuid().equals(activity1.getUuid()));
+    assertEquals(activity1.getUuid(), activity.getUuid());
   }
 
   @Test

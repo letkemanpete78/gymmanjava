@@ -1,7 +1,5 @@
 package ca.letkeman.gymmanjava.service;
 
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import ca.letkeman.gymmanjava.service.interfaces.StorageService;
@@ -29,7 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 class FileSystemStorageServiceTest {
 
   public static final String TEST_UPLOAD_DIR = "test-upload-dir/";
-  public static final String RESOURE_TEST_FILE_TXT = "loadAsResoure-testFile.txt";
+  public static final String RESOURCE_TEST_FILE_TXT = "loadAsResoure-testFile.txt";
   private StorageProperties storageProperties;
   private FileSystemStorageService fileSystemStorageService;
 
@@ -70,17 +68,15 @@ class FileSystemStorageServiceTest {
 
   @Test
   void shouldLoadFile() throws IOException {
-    createSampleFile(TEST_UPLOAD_DIR + RESOURE_TEST_FILE_TXT);
-    Path path = fileSystemStorageService.load(RESOURE_TEST_FILE_TXT);
-    Assertions.assertEquals(TEST_UPLOAD_DIR + RESOURE_TEST_FILE_TXT, path.toString());
+    createSampleFile(TEST_UPLOAD_DIR + RESOURCE_TEST_FILE_TXT);
+    Path path = fileSystemStorageService.load(RESOURCE_TEST_FILE_TXT);
+    Assertions.assertEquals(TEST_UPLOAD_DIR + RESOURCE_TEST_FILE_TXT, path.toString());
   }
 
   @Test
   void shouldLoadResource() throws IOException {
-    Assertions.assertThrows(StorageFileNotFoundException.class, () -> {
-      fileSystemStorageService.loadAsResource("test.txt");
-    });
-    String filePath = TEST_UPLOAD_DIR + RESOURE_TEST_FILE_TXT;
+    Assertions.assertThrows(StorageFileNotFoundException.class, () -> fileSystemStorageService.loadAsResource("test.txt"));
+    String filePath = TEST_UPLOAD_DIR + RESOURCE_TEST_FILE_TXT;
     createSampleFile(filePath);
     ClassLoader classLoader = getClass().getClassLoader();
     File file = new File(filePath);
@@ -91,7 +87,7 @@ class FileSystemStorageServiceTest {
 
   @Test
   void shouldDeleteFiles() throws IOException {
-    Path path = fileSystemStorageService.load(RESOURE_TEST_FILE_TXT).toAbsolutePath();
+    Path path = fileSystemStorageService.load(RESOURCE_TEST_FILE_TXT).toAbsolutePath();
     createSampleFile(path.toString());
     if (Files.exists(path)) {
       List<Path> oldList = Files.list(path.getParent()).collect(Collectors.toList());
@@ -104,7 +100,7 @@ class FileSystemStorageServiceTest {
 
   @Test
   void shouldDeleteFile() throws IOException {
-    Path path = fileSystemStorageService.load(RESOURE_TEST_FILE_TXT).toAbsolutePath();
+    Path path = fileSystemStorageService.load(RESOURCE_TEST_FILE_TXT).toAbsolutePath();
     createSampleFile(path.toString());
     if (Files.exists(path)) {
       List<Path> oldList = Files.list(path.getParent()).collect(Collectors.toList());

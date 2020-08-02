@@ -10,14 +10,6 @@ import javax.persistence.OneToOne;
 @Entity
 public class Activity {
 
-  public long getId() {
-    return id;
-  }
-
-  public void setId(long id) {
-    this.id = id;
-  }
-
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   @Column(unique = true, nullable = false)
@@ -27,10 +19,8 @@ public class Activity {
   private String description;
   @OneToOne
   private ResourceFile resourceFile;
-
   public Activity() {
   }
-
   public Activity(long id, String uuid, String name, String description,
       ResourceFile resourceFile) {
     this.id = id;
@@ -38,6 +28,14 @@ public class Activity {
     this.name = name;
     this.description = description;
     this.resourceFile = resourceFile;
+  }
+
+  public long getId() {
+    return id;
+  }
+
+  public void setId(long id) {
+    this.id = id;
   }
 
   public String getUuid() {
@@ -106,7 +104,7 @@ public class Activity {
         .append("uuid", uuid)
         .append("name", name)
         .append("description", description)
-        .append("resourseFile", resourceFile)
+        .append("resourceFile", resourceFile)
         .toString();
   }
 }

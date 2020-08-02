@@ -2,9 +2,6 @@ package ca.letkeman.gymmanjava.controller;
 
 import ca.letkeman.gymmanjava.models.Exercise;
 import ca.letkeman.gymmanjava.service.ExerciseService;
-import ca.letkeman.gymmanjava.service.interfaces.CrudService;
-import ca.letkeman.gymmanjava.service.interfaces.subInterfaces.DeleteGetList;
-import ca.letkeman.gymmanjava.service.interfaces.subInterfaces.UpdateCreate;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,32 +20,34 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/exercise/v1")
-public class ExerciseController  {
+public class ExerciseController {
 
   @Autowired
   ExerciseService exerciseService;
 
   @DeleteMapping
-  public  boolean delete(@RequestBody String payload){
+  public boolean delete(@RequestBody String payload) {
     return exerciseService.delete(payload);
   }
 
   @PutMapping
-  public Exercise update(@RequestBody String payload){
-    return (Exercise) exerciseService.update( payload);  }
+  public Exercise update(@RequestBody String payload) {
+    return exerciseService.update(payload);
+  }
 
   @PostMapping
   public Exercise create(@RequestBody String payload)
       throws JsonProcessingException {
-    return (Exercise) exerciseService.create(payload);  }
+    return exerciseService.create(payload);
+  }
 
   @GetMapping("/{id}")
-  public Exercise get(@PathVariable String id){
-    return (Exercise) exerciseService.get(id);
+  public Exercise get(@PathVariable String id) {
+    return exerciseService.get(id);
   }
 
   @GetMapping("/list")
-  public List<Exercise> list(){
+  public List<Exercise> list() {
     return exerciseService.list();
   }
 }

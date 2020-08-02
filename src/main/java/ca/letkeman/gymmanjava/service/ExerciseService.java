@@ -8,7 +8,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ExerciseService implements CrudService {
+public class ExerciseService implements CrudService<Exercise> {
 
   private final ExerciseRepository exerciseRepository;
 

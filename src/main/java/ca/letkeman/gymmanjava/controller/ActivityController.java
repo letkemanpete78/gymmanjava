@@ -26,7 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class ActivityController {
 
   @Autowired
-  private CrudWithFileService crudService;
+  private CrudWithFileService<Activity> crudService;
 
   @DeleteMapping
   public boolean delete(@RequestBody String payload) {
@@ -36,13 +36,13 @@ public class ActivityController {
   @PutMapping
   public Activity update(@RequestParam("file") MultipartFile file,
       @RequestParam("payload") String payload) {
-    return (Activity) crudService.update(file, payload);
+    return crudService.update(file, payload);
   }
 
   @PostMapping("/")
   public Activity create(@RequestParam("file") MultipartFile file,
       @RequestParam("payload") String payload) throws JsonProcessingException {
-    return (Activity) crudService.create(file, payload);
+    return crudService.create(file, payload);
   }
 
   @RequestMapping(value = "/{id}",
@@ -50,7 +50,7 @@ public class ActivityController {
       produces = {MediaType.APPLICATION_JSON_VALUE},
       consumes = MediaType.ALL_VALUE)
   public Activity get(@PathVariable String id) {
-    return (Activity) crudService.get(id);
+    return  crudService.get(id);
   }
 
   @RequestMapping(value = "/",

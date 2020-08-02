@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
-public class ActivityService implements CrudWithFileService {
+public class ActivityService implements CrudWithFileService<Activity> {
 
   private final ActivityRepository activityRepository;
   private final ResourceFileRepository resourceFileRepository;
@@ -35,7 +35,7 @@ public class ActivityService implements CrudWithFileService {
 
   @Override
   public boolean delete(String payload) {
-    return deleteActivites(payload);
+    return deleteActivities(payload);
   }
 
   @Override
@@ -52,11 +52,7 @@ public class ActivityService implements CrudWithFileService {
   @Override
   public Activity create(MultipartFile file,
       String payload) throws JsonProcessingException {
-    try {
-      return getActivity(file, payload);
-    } catch (JsonProcessingException e) {
-      throw e;
-    }
+    return getActivity(file, payload);
   }
 
   @Override
@@ -114,7 +110,7 @@ public class ActivityService implements CrudWithFileService {
     return returnedFile;
   }
 
-  private boolean deleteActivites(String payload) {
+  private boolean deleteActivities(String payload) {
     if (!payload.isEmpty()) {
       List<Activity> activities;
       try {

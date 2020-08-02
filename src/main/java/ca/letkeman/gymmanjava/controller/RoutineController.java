@@ -1,6 +1,6 @@
 package ca.letkeman.gymmanjava.controller;
 
-import ca.letkeman.gymmanjava.dao.RountineRepository;
+import ca.letkeman.gymmanjava.dao.RoutineRepository;
 import ca.letkeman.gymmanjava.models.Routine;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class RoutineController {
 
 
-  public RoutineController(RountineRepository routineRepository) {
+  public RoutineController(RoutineRepository routineRepository) {
   }
 
   @DeleteMapping

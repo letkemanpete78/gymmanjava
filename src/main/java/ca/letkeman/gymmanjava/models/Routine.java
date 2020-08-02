@@ -26,8 +26,8 @@ public class Routine {
   public Routine() {
   }
 
-  public Routine(Integer id, String name, String description ,
-      List<Exercise> exercises ) {
+  public Routine(Integer id, String name, String description,
+      List<Exercise> exercises) {
     this.id = id;
     this.name = name;
     this.description = description;

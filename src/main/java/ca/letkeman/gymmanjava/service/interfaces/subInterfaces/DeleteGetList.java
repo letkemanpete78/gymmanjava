@@ -2,7 +2,7 @@ package ca.letkeman.gymmanjava.service.interfaces.subInterfaces;
 
 import java.util.List;
 
-public interface DeleteGetList<T>  {
+public interface DeleteGetList<T> {
 
   boolean delete(String payload);
 
