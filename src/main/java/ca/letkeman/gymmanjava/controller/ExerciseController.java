@@ -31,7 +31,7 @@ public class ExerciseController {
   }
 
   @PutMapping
-  public Exercise update(@RequestBody String payload) {
+  public Exercise update(@RequestBody String payload) throws JsonProcessingException {
     return exerciseService.update(payload);
   }
 
