@@ -1,5 +1,8 @@
 package ca.letkeman.gymmanjava.models;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,15 +16,18 @@ public class Activity {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   @Column(unique = true, nullable = false)
-  private long id;
+  private Integer id;
   private String uuid;
   private String name;
   private String description;
+
   @OneToOne
-  private ResourceFile resourceFile;
+  @JsonInclude(Include.NON_NULL)  private ResourceFile resourceFile;
+
   public Activity() {
   }
-  public Activity(long id, String uuid, String name, String description,
+
+  public Activity(Integer id, String uuid, String name, String description,
       ResourceFile resourceFile) {
     this.id = id;
     this.uuid = uuid;
@@ -30,15 +36,18 @@ public class Activity {
     this.resourceFile = resourceFile;
   }
 
-  public long getId() {
+  public Integer getId() {
     return id;
   }
 
-  public void setId(long id) {
+  public void setId(Integer id) {
     this.id = id;
   }
 
   public String getUuid() {
+    if (uuid == null){
+      uuid = UUID.randomUUID().toString();
+    }
     return uuid;
   }
 

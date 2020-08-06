@@ -39,8 +39,8 @@ public class ActivityController {
     return crudService.update(file, payload);
   }
 
-  @PostMapping("/")
-  public Activity create(@RequestParam("file") MultipartFile file,
+  @PostMapping
+  public Activity create(@RequestParam("file") MultipartFile file ,
       @RequestParam("payload") String payload) throws JsonProcessingException {
     return crudService.create(file, payload);
   }

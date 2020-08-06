@@ -36,8 +36,7 @@ public class ExerciseController {
   }
 
   @PostMapping
-  public Exercise create(@RequestBody String payload)
-      throws JsonProcessingException {
+  public Exercise create(@RequestBody String payload) throws JsonProcessingException {
     return exerciseService.create(payload);
   }
 

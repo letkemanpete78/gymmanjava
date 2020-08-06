@@ -1,5 +1,8 @@
 package ca.letkeman.gymmanjava.models;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,23 +22,37 @@ public class Exercise {
   private Integer id;
   private Type type;
   private int value;
+  private String uuid;
   private String name;
   private String description;
-
   @OneToOne
+  @JsonInclude(Include.NON_NULL)
   private Activity activity;
 
   public Exercise() {
   }
 
-  public Exercise(Integer id, Type type, int value, String name, String description,
+  public Exercise(Integer id, Type type, int value, String uuid, String name,
+      String description,
       Activity activity) {
     this.id = id;
     this.type = type;
     this.value = value;
+    this.uuid = uuid;
     this.name = name;
     this.description = description;
     this.activity = activity;
+  }
+
+  public String getUuid() {
+    if (uuid == null) {
+      uuid = UUID.randomUUID().toString();
+    }
+    return uuid;
+  }
+
+  public void setUuid(String uuid) {
+    this.uuid = uuid;
   }
 
   public Integer getId() {
