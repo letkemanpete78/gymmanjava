@@ -1,6 +1,7 @@
 package ca.letkeman.gymmanjava.models;
 
 import java.util.List;
+import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,7 +19,10 @@ public class Routine {
   @GeneratedValue(strategy = GenerationType.AUTO)
   @Column(unique = true, nullable = false)
   private Integer id;
+  private String uuid;
+
   private String name;
+
   private String description;
   @OneToMany
   private List<Exercise> exercises;
@@ -27,11 +31,24 @@ public class Routine {
   }
 
   public Routine(Integer id, String name, String description,
-      List<Exercise> exercises) {
+      List<Exercise> exercises, String uuid) {
     this.id = id;
     this.name = name;
     this.description = description;
     this.exercises = exercises;
+    this.uuid = uuid;
+  }
+
+
+  public String getUuid() {
+    if (uuid == null) {
+      uuid = UUID.randomUUID().toString();
+    }
+    return uuid;
+  }
+
+  public void setUuid(String uuid) {
+    this.uuid = uuid;
   }
 
   public Integer getId() {
@@ -80,6 +97,7 @@ public class Routine {
 
     return new EqualsBuilder()
         .append(id, routine.id)
+        .append(uuid, routine.uuid)
         .append(name, routine.name)
         .append(description, routine.description)
         .append(exercises, routine.exercises)
@@ -90,6 +108,7 @@ public class Routine {
   public int hashCode() {
     return new HashCodeBuilder(17, 37)
         .append(id)
+        .append(uuid)
         .append(name)
         .append(description)
         .append(exercises)
@@ -100,6 +119,7 @@ public class Routine {
   public String toString() {
     return new ToStringBuilder(this)
         .append("id", id)
+        .append("uuid", uuid)
         .append("name", name)
         .append("description", description)
         .append("exercises", exercises)
