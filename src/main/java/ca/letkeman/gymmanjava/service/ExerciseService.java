@@ -19,22 +19,21 @@ public class ExerciseService implements CrudService<Exercise> {
 
   private final ExerciseRepository exerciseRepository;
   private final ActivityRepository activityRepository;
-  private final ResourceFileRepository resourceFileRepository;
 
   public ExerciseService(ExerciseRepository exerciseRepository,
       ActivityRepository activityRepository,
       ResourceFileRepository resourceFileRepository) {
     this.exerciseRepository = exerciseRepository;
     this.activityRepository = activityRepository;
-    this.resourceFileRepository = resourceFileRepository;
   }
 
   @Override
   public boolean delete(String payload) {
-    if (payload == null){
+    if (payload == null) {
       return false;
     }
-    Exercise exercise = getExerciseById(payload.replace("{", "").replace("}", "").replace("\"", ""));
+    Exercise exercise = getExerciseById(
+        payload.replace("{", "").replace("}", "").replace("\"", ""));
     if (exercise == null) {
       return false;
     }
@@ -67,7 +66,6 @@ public class ExerciseService implements CrudService<Exercise> {
   }
 
   private Exercise parseExercise(String payload) throws JsonProcessingException {
-    System.out.println(payload);
     Exercise exercise = new ObjectMapper().readValue(payload, new TypeReference<Exercise>() {
     });
     if (exercise != null) {
@@ -76,22 +74,24 @@ public class ExerciseService implements CrudService<Exercise> {
         if (activity != null) {
           exercise.setActivity(activity);
         }
-        if (exercise.getUuid() == null && exercise.getId() != null) {
-          Optional<Exercise> exercise1 = exerciseRepository.findById(exercise.getId());
-          if (exercise1.isPresent()) {
-            exercise.setUuid(exercise1.get().getUuid());
-          }
-        } else if (exercise.getUuid() != null && exercise.getId() == null) {
-          Exercise exercise1 = exerciseRepository.findByuuid(exercise.getUuid());
-          if (exercise1 != null) {
-            exercise.setId(exercise1.getId());
-          }
-        }
-        exercise = exerciseRepository.save(exercise);
+        exercise = exerciseRepository.save(updateExerciseIds(exercise));
       }
       return exercise;
     }
     return null;
+  }
+
+  private Exercise updateExerciseIds(Exercise exercise) {
+    if (exercise.getUuid() == null && exercise.getId() != null) {
+      Optional<Exercise> exercise1 = exerciseRepository.findById(exercise.getId());
+      exercise1.ifPresent(value -> exercise.setUuid(value.getUuid()));
+    } else if (exercise.getUuid() != null && exercise.getId() == null) {
+      Exercise exercise1 = exerciseRepository.findByuuid(exercise.getUuid());
+      if (exercise1 != null) {
+        exercise.setId(exercise1.getId());
+      }
+    }
+    return exercise;
   }
 
   private Activity getActivityFromDB(Activity oldActivity) {
@@ -111,11 +111,11 @@ public class ExerciseService implements CrudService<Exercise> {
   }
 
   private Exercise getExerciseById(String id) {
-    Optional<Exercise> exercise = null;
+    Optional<Exercise> exercise = Optional.empty();
     if (StringUtils.isNumeric(id)) {
       exercise = exerciseRepository.findById(Integer.valueOf(id));
     }
-    if (exercise == null || !exercise.isPresent()) {
+    if (!exercise.isPresent()) {
       exercise = Optional.ofNullable(exerciseRepository.findByuuid(id));
     }
     return exercise.orElse(null);

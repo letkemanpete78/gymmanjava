@@ -10,10 +10,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -71,11 +71,11 @@ public class ActivityService implements CrudWithFileService<Activity> {
     });
     String fileDescription = null;
 
-    if ((activity != null) && (activity.getUuid() != null)) {
+    if (activity != null && (activity.getUuid() != null)) {
 
       Activity deleteFile = activityRepository.findByuuid(activity.getUuid());
-      if ((deleteFile != null) && (deleteFile.getResourceFile() != null) && (
-          deleteFile.getResourceFile().getFileName() != null)) {
+      if (deleteFile != null && (deleteFile.getResourceFile() != null) &&
+          deleteFile.getResourceFile().getFileName() != null) {
 
         storage.delete(deleteFile.getResourceFile().getFileName());
         activity.setId(deleteFile.getId());
@@ -120,14 +120,18 @@ public class ActivityService implements CrudWithFileService<Activity> {
           return false;
         }
         activityRepository.deleteAll(activities);
-        activities.forEach(x -> {
-          if ((x.getResourceFile() != null) && (x.getResourceFile().getFileName() != null)) {
+        for (Activity x : activities) {
+          if (x.getResourceFile() != null && (x.getResourceFile().getFileName() != null)) {
             storage.delete(x.getResourceFile().getFileName());
           }
-        });
+        }
 
-        resourceFileRepository.deleteAll(
-            activities.stream().map(Activity::getResourceFile).collect(Collectors.toList()));
+        List<ResourceFile> result = new ArrayList<>();
+        for (Activity activity : activities) {
+          ResourceFile resourceFile = activity.getResourceFile();
+          result.add(resourceFile);
+        }
+        resourceFileRepository.deleteAll(result);
         if (activityRepository.findAllByuuidIn(Collections.singletonList(list.toString()))
             .isEmpty()) {
           return true;

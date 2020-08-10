@@ -22,7 +22,8 @@ public class Activity {
   private String description;
 
   @OneToOne
-  @JsonInclude(Include.NON_NULL)  private ResourceFile resourceFile;
+  @JsonInclude(Include.NON_NULL)
+  private ResourceFile resourceFile;
 
   public Activity() {
   }
@@ -45,7 +46,7 @@ public class Activity {
   }
 
   public String getUuid() {
-    if (uuid == null){
+    if (uuid == null) {
       uuid = UUID.randomUUID().toString();
     }
     return uuid;

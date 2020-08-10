@@ -40,7 +40,7 @@ public class ActivityController {
   }
 
   @PostMapping
-  public Activity create(@RequestParam("file") MultipartFile file ,
+  public Activity create(@RequestParam("file") MultipartFile file,
       @RequestParam("payload") String payload) throws JsonProcessingException {
     return crudService.create(file, payload);
   }
@@ -50,7 +50,7 @@ public class ActivityController {
       produces = {MediaType.APPLICATION_JSON_VALUE},
       consumes = MediaType.ALL_VALUE)
   public Activity get(@PathVariable String id) {
-    return  crudService.get(id);
+    return crudService.get(id);
   }
 
   @RequestMapping(value = "/",
