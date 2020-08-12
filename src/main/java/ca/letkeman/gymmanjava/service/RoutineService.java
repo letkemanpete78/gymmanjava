@@ -10,7 +10,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -65,13 +64,12 @@ public class RoutineService implements CrudService<Routine> {
   }
 
   private Routine parseRoutine(String payload) throws JsonProcessingException {
-    System.out.println(payload);
     Routine routine = new ObjectMapper().readValue(payload, new TypeReference<Routine>() {
     });
     if (routine != null) {
       if (routine.getExercises() != null) {
         List<Exercise> exercises = getExerciseFromDB(routine.getExercises());
-        if (exercises != null) {
+        if (!exercises.isEmpty()) {
           routine.setExercises(exercises);
         }
         routine = routineRepository.save(updateRoutineIds(routine));

@@ -35,7 +35,7 @@ class FileSystemStorageServiceTest {
   StorageService storage;
 
   @BeforeEach
-  public void initValues() throws Exception {
+  public void initValues() {
     storageProperties = new StorageProperties();
     fileSystemStorageService = new FileSystemStorageService(storageProperties);
     fileSystemStorageService.init();
@@ -43,28 +43,14 @@ class FileSystemStorageServiceTest {
 
   @Test
   void shouldThrowStoreException() {
-    Assertions.assertThrows(StorageException.class, () -> {
-      MultipartFile multipartFile = Mockito.mock((MultipartFile.class));
-      when(multipartFile.getOriginalFilename()).thenReturn("..test");
-      fileSystemStorageService.store(multipartFile);
-    });
-    Assertions.assertThrows(StorageException.class, () -> {
-      MockMultipartFile mockMultipartFile = new MockMultipartFile("test.txt", (byte[]) null);
-      fileSystemStorageService.store(mockMultipartFile);
-    });
-    Assertions.assertThrows(StorageException.class, () -> {
-      MultipartFile multipartFile = Mockito.mock((MultipartFile.class));
-      multipartFile = new MockMultipartFile("test.txt", "abc".getBytes());
-      fileSystemStorageService.store(multipartFile);
-    });
+    final MultipartFile multipartFile = Mockito.mock((MultipartFile.class));
+    when(multipartFile.getOriginalFilename()).thenReturn("..test");
+    Assertions.assertThrows(StorageException.class, () -> fileSystemStorageService.store(multipartFile));
+    MockMultipartFile mockMultipartFile1 = new MockMultipartFile("test.txt", (byte[]) null);
+    Assertions.assertThrows(StorageException.class, () -> fileSystemStorageService.store(mockMultipartFile1));
+    final MultipartFile multipartFile2 = new MockMultipartFile("test.txt", "abc".getBytes());
+    Assertions.assertThrows(StorageException.class, () -> fileSystemStorageService.store(multipartFile2));
   }
-
-  /*
-     try (InputStream inputStream = file.getInputStream()) {
-        Files.copy(inputStream, this.rootLocation.resolve(filename),
-            StandardCopyOption.REPLACE_EXISTING);
-      }
-   */
 
   @Test
   void shouldLoadFile() throws IOException {

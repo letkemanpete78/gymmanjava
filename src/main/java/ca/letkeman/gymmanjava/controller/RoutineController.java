@@ -1,10 +1,8 @@
 package ca.letkeman.gymmanjava.controller;
 
-import ca.letkeman.gymmanjava.dao.RoutineRepository;
 import ca.letkeman.gymmanjava.models.Routine;
 import ca.letkeman.gymmanjava.service.RoutineService;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;

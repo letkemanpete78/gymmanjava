@@ -1,4 +1,4 @@
-package ca.letkeman.gymmanjava.service.interfaces.subInterfaces;
+package ca.letkeman.gymmanjava.service.interfaces.subinterfaces;
 
 import java.util.List;
 

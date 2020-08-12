@@ -60,7 +60,7 @@ class ActivityServiceTest {
   }
 
   @Test
-  void shouldThrowParseError() throws JsonProcessingException {
+  void shouldThrowParseError() {
     Activity activity = initList(1).get(0);
     MockMultipartFile mockMultipartFile = new MockMultipartFile("test.txt", "test".getBytes());
     Assertions.assertThrows(JsonParseException.class, () -> {

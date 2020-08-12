@@ -24,7 +24,7 @@ public class FileSystemStorageService implements StorageService {
   private final Path rootLocation;
 
   @Autowired
-  public FileSystemStorageService(StorageProperties properties) throws Exception {
+  public FileSystemStorageService(StorageProperties properties) {
     if (properties.getLocation() != null) {
       configPathalue = properties.getLocation();
     }

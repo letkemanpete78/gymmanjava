@@ -2,7 +2,6 @@ package ca.letkeman.gymmanjava.service;
 
 import ca.letkeman.gymmanjava.dao.ActivityRepository;
 import ca.letkeman.gymmanjava.dao.ExerciseRepository;
-import ca.letkeman.gymmanjava.dao.ResourceFileRepository;
 import ca.letkeman.gymmanjava.models.Activity;
 import ca.letkeman.gymmanjava.models.Exercise;
 import ca.letkeman.gymmanjava.service.interfaces.CrudService;
@@ -21,8 +20,7 @@ public class ExerciseService implements CrudService<Exercise> {
   private final ActivityRepository activityRepository;
 
   public ExerciseService(ExerciseRepository exerciseRepository,
-      ActivityRepository activityRepository,
-      ResourceFileRepository resourceFileRepository) {
+      ActivityRepository activityRepository) {
     this.exerciseRepository = exerciseRepository;
     this.activityRepository = activityRepository;
   }
