@@ -139,7 +139,7 @@ public class Exercise {
   public String toString() {
     return new ToStringBuilder(this)
         .append("id", id)
-        .append("id", uuid)
+        .append("uuid", uuid)
         .append("type", type)
         .append("value", value)
         .append("name", name)

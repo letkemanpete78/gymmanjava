@@ -1,7 +1,6 @@
 package ca.letkeman.gymmanjava.service;
 
 import ca.letkeman.gymmanjava.dao.ExerciseRepository;
-import ca.letkeman.gymmanjava.dao.ResourceFileRepository;
 import ca.letkeman.gymmanjava.dao.RoutineRepository;
 import ca.letkeman.gymmanjava.models.Exercise;
 import ca.letkeman.gymmanjava.models.Routine;
@@ -9,6 +8,7 @@ import ca.letkeman.gymmanjava.service.interfaces.CrudService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -22,8 +22,7 @@ public class RoutineService implements CrudService<Routine> {
   private final ExerciseRepository exerciseRepository;
 
   public RoutineService(RoutineRepository routineRepository,
-      ExerciseRepository exerciseRepository,
-      ResourceFileRepository resourceFileRepository) {
+      ExerciseRepository exerciseRepository) {
     this.routineRepository = routineRepository;
     this.exerciseRepository = exerciseRepository;
   }
@@ -96,7 +95,7 @@ public class RoutineService implements CrudService<Routine> {
   }
 
   private List<Exercise> getExerciseFromDB(List<Exercise> oldExercise) {
-    List<Exercise> exercise = null;
+    List<Exercise> exercise = new ArrayList<>();
     for (Exercise e : oldExercise) {
       if (e.getId() != null && e.getId() != 0) {
         Optional<Exercise> e1 = exerciseRepository.findById(e.getId());
@@ -108,7 +107,9 @@ public class RoutineService implements CrudService<Routine> {
       } else if (e.getUuid() != null) {
         e = exerciseRepository.findByuuid(e.getUuid());
       }
-      Objects.requireNonNull(exercise).add(e);
+      if (e != null) {
+        exercise.add(e);
+      }
     }
     return exercise;
   }
