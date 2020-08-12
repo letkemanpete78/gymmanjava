@@ -8,15 +8,19 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "activity", indexes = {@Index(columnList = "uuid", unique = true)})
 public class Activity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   @Column(unique = true, nullable = false)
   private Integer id;
+  @Column(unique = true)
   private String uuid;
   private String name;
   private String description;

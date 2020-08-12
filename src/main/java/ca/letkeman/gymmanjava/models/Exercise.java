@@ -8,12 +8,15 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 @Entity
+@Table(name = "exercise", indexes = {@Index(columnList = "uuid", unique = true)})
 public class Exercise {
 
   @Id
@@ -22,6 +25,7 @@ public class Exercise {
   private Integer id;
   private Type type;
   private int value;
+  @Column(unique = true)
   private String uuid;
   private String name;
   private String description;
