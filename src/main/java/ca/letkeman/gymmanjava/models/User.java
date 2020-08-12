@@ -1,6 +1,7 @@
 package ca.letkeman.gymmanjava.models;
 
 import java.util.List;
+import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -48,6 +49,9 @@ public class User {
   }
 
   public String getUuid() {
+    if (uuid == null) {
+      uuid = UUID.randomUUID().toString();
+    }
     return uuid;
   }
 

@@ -52,7 +52,7 @@ public class ActivityController {
     return crudService.get(id);
   }
 
-  @GetMapping(value = "/",
+  @GetMapping(value = "/list",
       produces = {MediaType.APPLICATION_JSON_VALUE},
       consumes = MediaType.ALL_VALUE)
   public List<Activity> list() {
