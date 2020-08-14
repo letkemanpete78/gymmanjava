@@ -25,6 +25,7 @@ public class Exercise {
   private Integer id;
   private Type type;
   private int value;
+  private String unit;
   @Column(unique = true)
   private String uuid;
   private String name;
@@ -36,12 +37,13 @@ public class Exercise {
   public Exercise() {
   }
 
-  public Exercise(Integer id, Type type, int value, String uuid, String name,
+  public Exercise(Integer id, Type type, int value, String unit, String uuid, String name,
       String description,
       Activity activity) {
     this.id = id;
     this.type = type;
     this.value = value;
+    this.unit = unit;
     this.uuid = uuid;
     this.name = name;
     this.description = description;
@@ -53,6 +55,14 @@ public class Exercise {
       uuid = UUID.randomUUID().toString();
     }
     return uuid;
+  }
+
+  public String getUnit() {
+    return unit;
+  }
+
+  public void setUnit(String unit) {
+    this.unit = unit;
   }
 
   public void setUuid(String uuid) {
@@ -122,6 +132,7 @@ public class Exercise {
     return new EqualsBuilder()
         .append(value, exercise.value)
         .append(type, exercise.type)
+        .append(unit, exercise.unit)
         .append(name, exercise.name)
         .append(description, exercise.description)
         .append(activity, exercise.activity)
@@ -132,6 +143,7 @@ public class Exercise {
   public int hashCode() {
     return new HashCodeBuilder(17, 37)
         .append(type)
+        .append(unit)
         .append(value)
         .append(name)
         .append(description)
@@ -145,6 +157,7 @@ public class Exercise {
         .append("id", id)
         .append("uuid", uuid)
         .append("type", type)
+        .append("unit", unit)
         .append("value", value)
         .append("name", name)
         .append("description", description)
