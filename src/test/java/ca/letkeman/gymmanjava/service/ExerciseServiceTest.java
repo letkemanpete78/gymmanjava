@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -54,7 +53,7 @@ class ExerciseServiceTest {
   }
 
   @Test
-  void update() throws JsonProcessingException {
+  void updateShouldBeCalled() throws JsonProcessingException {
     Exercise exercise = initList(1).get(0);
     exercise.setActivity(null);
     when(exerciseRepository.save(exercise)).thenReturn(exercise);
