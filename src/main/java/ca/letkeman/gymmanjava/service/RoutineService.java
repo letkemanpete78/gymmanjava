@@ -28,7 +28,7 @@ public class RoutineService implements CrudService<Routine> {
 
   @Override
   public boolean delete(String payload) {
-    if (payload == null) {
+    if (payload.isEmpty()) {
       return false;
     }
     Routine routine = getRoutineById(payload.replace("{", "").replace("}", "").replace("\"", ""));
