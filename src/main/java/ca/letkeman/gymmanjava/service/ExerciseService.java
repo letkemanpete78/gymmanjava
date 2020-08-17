@@ -8,6 +8,7 @@ import ca.letkeman.gymmanjava.service.interfaces.CrudService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import org.apache.commons.lang3.StringUtils;
@@ -27,15 +28,15 @@ public class ExerciseService implements CrudService<Exercise> {
 
   @Override
   public boolean delete(String payload) {
-    if (payload == null) {
+    if (payload.isEmpty()) {
       return false;
     }
-    Exercise exercise = getExerciseById(
-        payload.replace("{", "").replace("}", "").replace("\"", ""));
-    if (exercise == null) {
+    List<Exercise> exercises = exerciseRepository.findAllByuuidIn(
+        Collections.singletonList(payload.replace("{", "").replace("}", "").replace("\"", "")));
+    if (exercises.isEmpty()) {
       return false;
     }
-    exerciseRepository.delete(exercise);
+    exerciseRepository.deleteAll(exercises);
     Exercise exercise1 = getExerciseById(payload);
     return exercise1 == null;
   }
