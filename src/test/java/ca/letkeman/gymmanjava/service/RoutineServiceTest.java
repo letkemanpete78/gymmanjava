@@ -58,9 +58,9 @@ class RoutineServiceTest {
     Routine routine = initList(1).get(0);
     routine.setExercises(null);
     when(routineRepository.save(routine)).thenReturn(routine);
-    String jsonStr = "{\"id\": 1,  \"uuid\": \"\",  \"name\": \"\",  \"description\": \"\",  \"exercises\": null}";
+    String jsonStr = "{\"id\": 1,  \"uuid\": \"1 routine test-uuid\",  \"name\": \"1 routine test name\",  \"description\": \"1 routine test description\",  \"exercises\": null}";
     Routine routine1 = routineService.update(jsonStr);
-    Assertions.assertEquals(routine, routine1);
+    Assertions.assertTrue(routine.equals(routine1));
   }
 
   @Test
@@ -68,9 +68,9 @@ class RoutineServiceTest {
     Routine routine = initList(1).get(0);
     routine.setExercises(null);
     when(routineRepository.save(routine)).thenReturn(routine);
-    String jsonStr = "{\"id\": 1,  \"uuid\": \"\",  \"name\": \"\",  \"description\": \"\",  \"exercises\": null}";
+    String jsonStr = "{\"id\": 1,  \"uuid\": \"1 routine test-uuid\",  \"name\": \"1 routine test name\",  \"description\": \"1 routine test description\",  \"exercises\": null}";
     Routine routine1 = routineService.create(jsonStr);
-    Assertions.assertEquals(routine,routine1);
+    Assertions.assertTrue(routine.equals(routine1));
   }
 
   @Test
@@ -93,9 +93,9 @@ class RoutineServiceTest {
 
   private List<Routine> initList(int size){
     List<Routine> routines = new ArrayList<>();
-    for (int j = 0;j<size;j++){
+    for (int j = 1;j<=size;j++){
       List<Exercise> exercises = new ArrayList<>();
-      Routine routine = new Routine();
+
       for (int i = 1; i <= size; i++) {
 
         ResourceFile resourceFile = new ResourceFile();
@@ -123,6 +123,7 @@ class RoutineServiceTest {
         exercise.setUnit("seconds");
         exercises.add(exercise);
       }
+      Routine routine = new Routine();
       routine.setExercises(exercises);
       routine.setDescription(j + " routine test description");
       routine.setId(j);
