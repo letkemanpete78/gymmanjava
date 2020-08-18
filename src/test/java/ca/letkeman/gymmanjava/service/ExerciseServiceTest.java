@@ -31,15 +31,6 @@ class ExerciseServiceTest {
   @Mock
   private ExerciseRepository exerciseRepository;
 
-  @Mock
-  private ActivityRepository activityRepository;
-
-  @Mock
-  private ResourceFileRepository resourceFileRepository;
-
-  @Mock
-  private StorageService storageService;
-
   @InjectMocks
   private ExerciseService exerciseService;
 
