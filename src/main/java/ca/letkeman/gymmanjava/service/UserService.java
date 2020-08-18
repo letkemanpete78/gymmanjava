@@ -9,6 +9,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import org.apache.commons.lang3.StringUtils;
@@ -31,11 +32,12 @@ public class UserService implements CrudService<User> {
     if (payload == null) {
       return false;
     }
-    User user = getUserById(payload.replace("{", "").replace("}", "").replace("\"", ""));
-    if (user == null) {
+    List<User> users = userRepository.findAllByuuidIn (
+        Collections.singletonList(payload.replace("{", "").replace("}", "").replace("\"", "")));
+    if (users == null) {
       return false;
     }
-    userRepository.delete(user);
+    userRepository.deleteAll(users);
     User user1 = getUserById(payload);
     return user1 == null;
   }
