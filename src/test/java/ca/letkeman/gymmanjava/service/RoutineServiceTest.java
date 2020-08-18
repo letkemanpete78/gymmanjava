@@ -31,15 +31,6 @@ class RoutineServiceTest {
   @Mock
   private RoutineRepository routineRepository;
 
-  @Mock
-  private ActivityRepository activityRepository;
-
-  @Mock
-  private ResourceFileRepository resourceFileRepository;
-
-  @Mock
-  private StorageService storageService;
-
   @InjectMocks
   private RoutineService routineService;
 
@@ -50,7 +41,6 @@ class RoutineServiceTest {
     doNothing().when(routineRepository).delete(routines.get(0));
     boolean wasDeleted = routineService.delete("1 routine test-uuid");
     Assertions.assertTrue(wasDeleted);
-
   }
 
   @Test
@@ -76,8 +66,7 @@ class RoutineServiceTest {
   @Test
   void shouldGetOneRoutine() {
     Routine routine = initList(1).get(0);
-    when(routineRepository.findByuuid("1 routine test-uid")).thenReturn(routine);
-    routineRepository.save(routine);
+    when(routineRepository.findByuuid("1 routine test-uuid")).thenReturn(routine);
     Routine routine1 = routineService.get("1 routine test-uuid");
     Assertions.assertEquals(routine,routine1);
   }

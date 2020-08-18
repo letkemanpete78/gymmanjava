@@ -9,6 +9,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import org.apache.commons.lang3.StringUtils;
@@ -31,11 +32,12 @@ public class RoutineService implements CrudService<Routine> {
     if (payload.isEmpty()) {
       return false;
     }
-    Routine routine = getRoutineById(payload.replace("{", "").replace("}", "").replace("\"", ""));
-    if (routine == null) {
+    List<Routine> routines = routineRepository.findAllByuuidIn(
+        Collections.singletonList(payload.replace("{", "").replace("}", "").replace("\"", "")));
+    if (routines == null) {
       return false;
     }
-    routineRepository.delete(routine);
+    routineRepository.deleteAll(routines);
     Routine routine1 = getRoutineById(payload);
     return routine1 == null;
   }
