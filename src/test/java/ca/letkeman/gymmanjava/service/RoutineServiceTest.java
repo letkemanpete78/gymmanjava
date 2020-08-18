@@ -47,7 +47,7 @@ class RoutineServiceTest {
     when(routineRepository.save(routine)).thenReturn(routine);
     String jsonStr = "{\"id\": 1,  \"uuid\": \"1 routine test-uuid\",  \"name\": \"1 routine test name\",  \"description\": \"1 routine test description\",  \"exercises\": null}";
     Routine routine1 = routineService.update(jsonStr);
-    Assertions.assertTrue(routine.equals(routine1));
+    Assertions.assertEquals(routine1, routine);
   }
 
   @Test
@@ -57,7 +57,7 @@ class RoutineServiceTest {
     when(routineRepository.save(routine)).thenReturn(routine);
     String jsonStr = "{\"id\": 1,  \"uuid\": \"1 routine test-uuid\",  \"name\": \"1 routine test name\",  \"description\": \"1 routine test description\",  \"exercises\": null}";
     Routine routine1 = routineService.create(jsonStr);
-    Assertions.assertTrue(routine.equals(routine1));
+    Assertions.assertEquals(routine1, routine);
   }
 
   @Test

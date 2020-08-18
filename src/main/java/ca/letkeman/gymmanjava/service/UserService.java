@@ -32,7 +32,7 @@ public class UserService implements CrudService<User> {
     if (payload == null) {
       return false;
     }
-    List<User> users = userRepository.findAllByuuidIn (
+    List<User> users = userRepository.findAllByuuidIn(
         Collections.singletonList(payload.replace("{", "").replace("}", "").replace("\"", "")));
     if (users == null) {
       return false;

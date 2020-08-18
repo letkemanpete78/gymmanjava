@@ -57,16 +57,16 @@ public class Exercise {
     return uuid;
   }
 
+  public void setUuid(String uuid) {
+    this.uuid = uuid;
+  }
+
   public String getUnit() {
     return unit;
   }
 
   public void setUnit(String unit) {
     this.unit = unit;
-  }
-
-  public void setUuid(String uuid) {
-    this.uuid = uuid;
   }
 
   public Integer getId() {
