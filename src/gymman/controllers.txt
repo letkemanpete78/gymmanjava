@@ -1,0 +1,34 @@
+Activity Controller
+
+POST ​/activity​/v1
+PUT ​/activity​/v1
+DELETE ​/activity​/v1
+GET ​/activity​/v1​/{id}
+GET ​/activity​/v1​/list
+
+
+Exercise Controller
+
+POST ​/exercise​/v1
+PUT ​/exercise​/v1
+DELETE ​/exercise​/v1
+GET ​/exercise​/v1​/{id}
+GET ​/exercise​/v1​/list
+
+
+Routine Controller
+
+POST ​/routine​/v1
+PUT ​/routine​/v1
+DELETE ​/routine​/v1
+GET ​/routine​/v1​/{id}
+GET ​/routine​/v1​/list
+
+
+User Controller
+
+POST ​/user​/v1
+PUT ​/user​/v1
+DELETE ​/user​/v1
+GET ​/user​/v1​/{id}
+GET ​/user​/v1​/list
