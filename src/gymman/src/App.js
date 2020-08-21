@@ -16,7 +16,7 @@ class App extends Component {
 
 
 
-        const user = createSingleUser(user1)
+        const user = Users.createUser(user1)
         console.log(user)
     }
 
@@ -27,80 +27,120 @@ class App extends Component {
     }
 }
 
-async function loadAllUsers() {
-    try{
-        const response = await fetch(`${process.env.REACT_APP_USER_LIST_URL}`,{})
-        if (response.ok) {
-            return await response.json()
+const Users = {
+    logoutUser: async function(username,password) {
+        const login = {Username:username,Password:password}
+        try{
+            if (process.env.REACT_APP_LOGOUT_VERB !== "GET"){
+                const response = await fetch(`${process.env.REACT_APP_USER_LOGOUT_URL}` ,{method: `${process.env.REACT_APP_LOGOUT_VERB}`,body: JSON.stringify(login)})
+                if (response.ok) {
+                    return await response.json()
+                }
+            } else {
+                const response = await fetch(`${process.env.REACT_APP_USER_LOGOUT_URL}` ,{})
+                if (response.ok) {
+                    return await response.json()
+                }
+            }
+        } catch (err){
+            console.log(err)
         }
-    } catch (err){
-        console.debug(err)
-    }
-}
+    },
 
-async function loadSingleUser(id) {
-    try{
-        const response = await fetch(`${process.env.REACT_APP_USER_SINGLE_URL}` + id,{})
-        if (response.ok) {
-            return await response.json()
+    loginUser : async function (username,password) {
+        const login = {Username:username,Password:password}
+        try{
+            if (process.env.REACT_APP_LOGIN_VERB !== "GET"){
+                const response = await fetch(`${process.env.REACT_APP_USER_LOGIN_URL}` ,{method: `${process.env.REACT_APP_LOGIN_VERB}`,body: JSON.stringify(login)})
+                if (response.ok) {
+                    return await response.json()
+                }
+            } else {
+                const response = await fetch(`${process.env.REACT_APP_USER_LOGIN_URL}` ,{})
+                if (response.ok) {
+                    return await response.json()
+                }
+            }
+        } catch (err){
+            console.log(err)
         }
-    } catch (err){
-        console.log(err)
-    }
-}
+    },
 
-async function deleteSingleUser(id) {
-    try{
-        if (process.env.REACT_APP_DELETE_VERB !== "GET"){
-            const response = await fetch(`${process.env.REACT_APP_USER_DELETE_URL}` ,{method: `${process.env.REACT_APP_DELETE_VERB}`,body: JSON.stringify(id)})
+    allUsers : async function () {
+        try{
+            const response = await fetch(`${process.env.REACT_APP_USER_LIST_URL}`,{})
             if (response.ok) {
                 return await response.json()
             }
-        } else {
-            const response = await fetch(`${process.env.REACT_APP_USER_DELETE_URL}` ,{})
-            if (response.ok) {
-                return await response.json()
-            }
+        } catch (err){
+            console.debug(err)
         }
-    } catch (err){
-        console.log(err)
-    }
-}
+    },
 
-async function updateSingleUser(user) {
-    try{
-        if (process.env.REACT_APP_UPDATE_VERB !== "GET"){
-            const response = await fetch(`${process.env.REACT_APP_USER_UPDATE_URL}` ,{method: `${process.env.REACT_APP_USER_UPDATE_URL}`,body: JSON.stringify(user)})
+    loadUser : async function (id) {
+        try{
+            const response = await fetch(`${process.env.REACT_APP_USER_SINGLE_URL}` + id,{})
             if (response.ok) {
                 return await response.json()
             }
-        } else {
-            const response = await fetch(`${process.env.REACT_APP_USER_UPDATE_URL}` ,{})
-            if (response.ok) {
-                return await response.json()
-            }
+        } catch (err){
+            console.log(err)
         }
-    } catch (err){
-        console.log(err)
-    }
-}
+    },
 
-async function createSingleUser(user) {
-    try{
-        if (process.env.REACT_APP_CREATE_VERB !== "GET"){
-            const response = await fetch(`${process.env.REACT_APP_USER_CREATE_URL}` ,{method: `${process.env.REACT_APP_USER_CREATE_URL}`,body: JSON.stringify(user)})
-            if (response.ok) {
-                return await response.json()
+    deleteUser : async function (id) {
+        try{
+            if (process.env.REACT_APP_DELETE_VERB !== "GET"){
+                const response = await fetch(`${process.env.REACT_APP_USER_DELETE_URL}` ,{method: `${process.env.REACT_APP_DELETE_VERB}`,body: JSON.stringify(id)})
+                if (response.ok) {
+                    return await response.json()
+                }
+            } else {
+                const response = await fetch(`${process.env.REACT_APP_USER_DELETE_URL}` ,{})
+                if (response.ok) {
+                    return await response.json()
+                }
             }
-        } else {
-            const response = await fetch(`${process.env.REACT_APP_USER_CREATE_URL}` ,{})
-            if (response.ok) {
-                return await response.json()
-            }
+        } catch (err){
+            console.log(err)
         }
-    } catch (err){
-        console.log(err)
-    }
-}
+    },
 
+    updateUser: async function (user) {
+        try{
+            if (process.env.REACT_APP_UPDATE_VERB !== "GET"){
+                const response = await fetch(`${process.env.REACT_APP_USER_UPDATE_URL}` ,{method: `${process.env.REACT_APP_USER_UPDATE_URL}`,body: JSON.stringify(user)})
+                if (response.ok) {
+                    return await response.json()
+                }
+            } else {
+                const response = await fetch(`${process.env.REACT_APP_USER_UPDATE_URL}` ,{})
+                if (response.ok) {
+                    return await response.json()
+                }
+            }
+        } catch (err){
+            console.log(err)
+        }
+    },
+
+    createUser: async function (user) {
+        try{
+            if (process.env.REACT_APP_CREATE_VERB !== "GET"){
+                const response = await fetch(`${process.env.REACT_APP_USER_CREATE_URL}` ,{method: `${process.env.REACT_APP_USER_CREATE_URL}`,body: JSON.stringify(user)})
+                if (response.ok) {
+                    return await response.json()
+                }
+            } else {
+                const response = await fetch(`${process.env.REACT_APP_USER_CREATE_URL}` ,{})
+                if (response.ok) {
+                    return await response.json()
+                }
+            }
+        } catch (err){
+            console.log(err)
+        }
+    }
+
+}
 export default App
