@@ -21,7 +21,40 @@ class App extends Component {
 
     render() {
         return (
-            <p>Pete</p>
+            <div>
+                <div id="header">
+                    <ul>
+                        <li>Register/login</li>
+                        <li>Last Sync</li>
+                    </ul>
+                </div>
+                <div id="left-menu">
+                    <ul>
+                        <li>
+                            Workout Routines
+                            <ul>
+                                <li>Your History</li>
+                                <li>Gallery</li>
+                                <li>Active</li>
+                            </ul>
+                        </li>
+                        <li>Exercises</li>
+                        <li>Activity</li>
+                        <li>FAQ</li>
+                        <li>About</li>
+                        <li>Terms And Conditions</li>
+                    </ul>
+                </div>
+                <div id="main-content">
+                    <div id="user-stats">
+                        <ul>
+                            <li>Last Sync</li>
+                            <li>User Details</li>
+                        </ul>
+                    </div>
+                    <div id="quick-links">See left menu</div>
+                </div>
+            </div>
         )
     }
 }
