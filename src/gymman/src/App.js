@@ -8,86 +8,86 @@ import uuid from 'react-uuid'
 class App extends Component {
 
     // componentDidMount() {
-        // const activity1 = {
-        //     id:"activity1",
-        //     uuid:uuid(),
-        //     name:"test name",
-        //     description:"test description",
-        //     resourceFile:{fileId:1}
-        //  }
+    // const activity1 = {
+    //     id:"activity1",
+    //     uuid:uuid(),
+    //     name:"test name",
+    //     description:"test description",
+    //     resourceFile:{fileId:1}
+    //  }
 
-        // const activity = Activity.createActivity(activity1)
-        // console.log(activity)
+    // const activity = Activity.createActivity(activity1)
+    // console.log(activity)
     // }
 
     loginForm = () => {
         return (
-        <div id="loginform">
-            <p><label for="email">E-mail:</label> <input id="email" type="text" name="email" placeholder="email@domain.com"/></p>
-            <p><label for="password">Password:</label> <input id="password" type="password" name="password"/></p>
-            <p><button>Login</button></p>
-            <p>Google</p>
-        </div>)
+            <div id="loginform">
+                <p><label for="email">E-mail:</label> <input id="email" type="text" name="email" placeholder="email@domain.com" /></p>
+                <p><label for="password">Password:</label> <input id="password" type="password" name="password" /></p>
+                <p><button>Login</button></p>
+                <p>Google</p>
+            </div>)
     }
 
-    routineList = (routines) => {
+    routineList = (routines, isEditable) => {
         return (
             <div id="routines">
                 {
                     routines.forEach(routine => {
-                        this.routineDetails(routine)    
+                        this.routineDetails(routine, isEditable)
                     })
                 }
             </div>
         )
     }
 
-    routineDetails = (routine) => {
+    routineDetails = (routine, isEditable) => {
         return (
             <div id={routine.uuid}>
-                <p>{routine.name}</p>
-                <p>{routine.description}</p>
+                <p contentEditable={isEditable} suppressContentEditableWarning={true}>{routine.name}</p>
+                <p contentEditable={isEditable} suppressContentEditableWarning={true}>{routine.description}</p>
                 this.exerciseList(routine.exercises)
             </div>
         )
     }
 
-    exerciseList = (exercises) => {
+    exerciseList = (exercises, isEditable) => {
         return (
             <div id="exercises">
                 {
                     exercises.forEach(exercise => {
-                        this.exerciseDetails(exercise)
+                        this.exerciseDetails(exercise, isEditable)
                     })
                 }
             </div>
         )
     }
 
-    exerciseDetails = (exercise) => {
+    exerciseDetails = (exercise, isEditable) => {
         return (
             <div id={exercise.uuid}>
-                <p>{exercise.name}</p>
-                <p>{exercise.description}</p>
-                <p>{exercise.type}</p>
-                <p>{exercise.value}</p>
-                <p>{exercise.unit}</p>
-                this.activityDetails(exercise.activity)
+                <p contentEditable={isEditable} suppressContentEditableWarning={true}>{exercise.name}</p>
+                <p contentEditable={isEditable} suppressContentEditableWarning={true}>{exercise.description}</p>
+                <p contentEditable={isEditable} suppressContentEditableWarning={true}>{exercise.type}</p>
+                <p contentEditable={isEditable} suppressContentEditableWarning={true}>{exercise.value}</p>
+                <p contentEditable={isEditable} suppressContentEditableWarning={true}>{exercise.unit}</p>
+                this.activityDetails(exercise.activity,isEditable)
             </div>
         )
     }
 
-    activityDetails = (activity) => {
+    activityDetails = (activity, isEditable) => {
         return (
             <div id={activity.uuid}>
-                <p>{activity.name}</p>
-                <p>{activity.description}</p>
-                this.resourceFileDetails(activity.resourceFile)
+                <p contentEditable={isEditable} suppressContentEditableWarning={true}>{activity.name}</p>
+                <p contentEditable={isEditable} suppressContentEditableWarning={true}>{activity.description}</p>
+                this.resourceFileDetails(activity.resourceFile,isEditable)
             </div>
         )
     }
 
-    resourceFileDetails = (resourceFile) => {
+    resourceFileDetails = (resourceFile, isEditable) => {
         return (
             <div id={resourceFile.fielId}>
                 <image>{resourceFile.fileName} - {resourceFile.desciprtion}</image>
