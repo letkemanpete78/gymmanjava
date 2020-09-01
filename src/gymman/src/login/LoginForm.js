@@ -21,6 +21,7 @@ let LoginForm = props => {
                     component="input"
                     type="email"
                     placeholder="Email"
+                    autoComplete="off"
                 />
             </div>
             <label>Password</label>
@@ -30,6 +31,7 @@ let LoginForm = props => {
                     component="input"
                     type="password"
                     placeholder="password"
+                    autoComplete="off"
                 />
             </div>
             <div>
