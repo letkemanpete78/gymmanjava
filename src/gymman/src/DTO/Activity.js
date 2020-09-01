@@ -90,6 +90,24 @@ export const Activity = {
         } catch (err){
             console.log(err)
         }
-    }
+    },
 
+    activityDetails : (activity, isEditable) => {
+        return (
+            <div id={activity.uuid}>
+                <p contentEditable={isEditable} suppressContentEditableWarning={true}>{activity.name}</p>
+                <p contentEditable={isEditable} suppressContentEditableWarning={true}>{activity.description}</p>
+                this.resourceFileDetails(activity.resourceFile,isEditable)
+                Utility.submitButtons(isEditable, exercise.uuid, saveMethod, updateMethod, deleteMethod)
+            </div>
+        )
+    },
+
+    resourceFileDetails : (resourceFile, isEditable) => {
+        return (
+            <div id={resourceFile.fielId}>
+                <image>{resourceFile.fileName} - {resourceFile.desciprtion}</image>
+            </div>
+        )
+    }
 }

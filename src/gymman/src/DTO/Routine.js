@@ -90,6 +90,29 @@ export const Routine = {
         } catch (err){
             console.log(err)
         }
+    },
+
+    routineList : (routines, isEditable) => {
+        return (
+            <div id="routines">
+                {
+                    routines.forEach(routine => {
+                        this.routineDetails(routine, isEditable)
+                    })
+                }
+            </div>
+        )
+    },
+
+    routineDetails : (routine, isEditable) => {
+        return (
+            <div id={routine.uuid}>
+                <p contentEditable={isEditable} suppressContentEditableWarning={true}>{routine.name}</p>
+                <p contentEditable={isEditable} suppressContentEditableWarning={true}>{routine.description}</p>
+                Exercise.exerciseList(routine.exercises)
+                Utility.submitButtons(isEditable, exercise.uuid, saveMethod, updateMethod, deleteMethod)
+            </div>
+        )
     }
 
 }

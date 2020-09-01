@@ -1,3 +1,5 @@
+import React from 'react'
+// import { useForm } from "react-hook-form";
 /*
         const user1 = {
             id: "userid1",
@@ -15,8 +17,8 @@
         console.log(user)
 */
 export const User = {
-    logoutUser: async function(username,password) {
-        const login = {Username:username,Password:password}
+    logoutUser: async function(email,password) {
+        const login = {Email:email,Password:password}
         try{
             if (process.env.REACT_APP_LOGOUT_VERB !== "GET"){
                 const response = await fetch(`${process.env.REACT_APP_USER_LOGOUT_URL}` ,{method: `${process.env.REACT_APP_LOGOUT_VERB}`,body: JSON.stringify(login)})
@@ -34,8 +36,8 @@ export const User = {
         }
     },
 
-    loginUser : async function (username,password) {
-        const login = {Username:username,Password:password}
+    loginUser : async function (email,password) {
+        const login = {Email:email,Password:password}
         try{
             if (process.env.REACT_APP_LOGIN_VERB !== "GET"){
                 const response = await fetch(`${process.env.REACT_APP_USER_LOGIN_URL}` ,{method: `${process.env.REACT_APP_LOGIN_VERB}`,body: JSON.stringify(login)})
@@ -127,6 +129,7 @@ export const User = {
         } catch (err){
             console.log(err)
         }
-    }
+    },
 
+    
 }

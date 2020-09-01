@@ -89,6 +89,31 @@ export const Exercise = {
         } catch (err){
             console.log(err)
         }
-    }
+    },
 
+    exerciseList : (exercises, isEditable) => {
+        return (
+            <div id="exercises">
+                {
+                    exercises.forEach(exercise => {
+                        this.exerciseDetails(exercise, isEditable)
+                    })
+                }
+            </div>
+        )
+    },
+
+    exerciseDetails : (exercise, isEditable) => {
+        return (
+            <div id={exercise.uuid}>
+                <p contentEditable={isEditable} suppressContentEditableWarning={true}>{exercise.name}</p>
+                <p contentEditable={isEditable} suppressContentEditableWarning={true}>{exercise.description}</p>
+                <p contentEditable={isEditable} suppressContentEditableWarning={true}>{exercise.type}</p>
+                <p contentEditable={isEditable} suppressContentEditableWarning={true}>{exercise.value}</p>
+                <p contentEditable={isEditable} suppressContentEditableWarning={true}>{exercise.unit}</p>
+                Activity.activityDetails(exercise.activity,isEditable)
+                Utility.submitButtons(isEditable, exercise.uuid, saveMethod, updateMethod, deleteMethod)
+            </div>
+        )
+    }
 }

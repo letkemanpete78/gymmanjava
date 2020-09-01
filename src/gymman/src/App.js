@@ -1,9 +1,12 @@
 import React, { Component } from 'react'
 import uuid from 'react-uuid'
-// import {User} from './DTO/User'
+import { User } from './DTO/User'
+import Login from "./login/Login";
+
 // import {Exercise} from './DTO/Exercise'
 // import {Activity} from './DTO/Activity'
 // import {Activity} from './DTO/Routine'
+import { Utility } from './Utility'
 
 class App extends Component {
 
@@ -19,81 +22,6 @@ class App extends Component {
     // const activity = Activity.createActivity(activity1)
     // console.log(activity)
     // }
-
-    loginForm = () => {
-        return (
-            <div id="loginform">
-                <p><label for="email">E-mail:</label> <input id="email" type="text" name="email" placeholder="email@domain.com" /></p>
-                <p><label for="password">Password:</label> <input id="password" type="password" name="password" /></p>
-                <p><button>Login</button></p>
-                <p>Google</p>
-            </div>)
-    }
-
-    routineList = (routines, isEditable) => {
-        return (
-            <div id="routines">
-                {
-                    routines.forEach(routine => {
-                        this.routineDetails(routine, isEditable)
-                    })
-                }
-            </div>
-        )
-    }
-
-    routineDetails = (routine, isEditable) => {
-        return (
-            <div id={routine.uuid}>
-                <p contentEditable={isEditable} suppressContentEditableWarning={true}>{routine.name}</p>
-                <p contentEditable={isEditable} suppressContentEditableWarning={true}>{routine.description}</p>
-                this.exerciseList(routine.exercises)
-            </div>
-        )
-    }
-
-    exerciseList = (exercises, isEditable) => {
-        return (
-            <div id="exercises">
-                {
-                    exercises.forEach(exercise => {
-                        this.exerciseDetails(exercise, isEditable)
-                    })
-                }
-            </div>
-        )
-    }
-
-    exerciseDetails = (exercise, isEditable) => {
-        return (
-            <div id={exercise.uuid}>
-                <p contentEditable={isEditable} suppressContentEditableWarning={true}>{exercise.name}</p>
-                <p contentEditable={isEditable} suppressContentEditableWarning={true}>{exercise.description}</p>
-                <p contentEditable={isEditable} suppressContentEditableWarning={true}>{exercise.type}</p>
-                <p contentEditable={isEditable} suppressContentEditableWarning={true}>{exercise.value}</p>
-                <p contentEditable={isEditable} suppressContentEditableWarning={true}>{exercise.unit}</p>
-                this.activityDetails(exercise.activity,isEditable)
-            </div>
-        )
-    }
-
-    activityDetails = (activity, isEditable) => {
-        return (
-            <div id={activity.uuid}>
-                <p contentEditable={isEditable} suppressContentEditableWarning={true}>{activity.name}</p>
-                <p contentEditable={isEditable} suppressContentEditableWarning={true}>{activity.description}</p>
-                this.resourceFileDetails(activity.resourceFile,isEditable)
-            </div>
-        )
-    }
-
-    resourceFileDetails = (resourceFile, isEditable) => {
-        return (
-            <div id={resourceFile.fielId}>
-                <image>{resourceFile.fileName} - {resourceFile.desciprtion}</image>
-            </div>
-        )
-    }
 
     render() {
         return (
@@ -130,6 +58,8 @@ class App extends Component {
                     </div>
                     <div id="quick-links">See left menu</div>
                 </div>
+
+                <Login/>
             </div>
         )
     }
