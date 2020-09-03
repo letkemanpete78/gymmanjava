@@ -83,7 +83,7 @@ class Dropzone extends Component {
           className="Icon"
           src="/cloud_upload-24px.svg"
         />
-        <span>Upload Files</span>
+        <span>Upload File</span>
       </div>
     );
   }
