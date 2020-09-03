@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import uuid from 'react-uuid'
 import { User } from './DTO/User'
 import Login from "./login/Login";
+import Dropzone from "./dropzone/Dropzone"
 
 // import {Exercise} from './DTO/Exercise'
 // import {Activity} from './DTO/Activity'
@@ -60,6 +61,10 @@ class App extends Component {
                 </div>
 
                 <Login/>
+
+                <Dropzone onFilesAdded={console.log} />
+
+
             </div>
         )
     }
